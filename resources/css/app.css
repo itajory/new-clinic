@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Caudex", serif;
+}
+
+/* Arabic font */
+body:lang(ar) {
+  font-family: "Noto Kufi Arabic", sans-serif;
+}
+
+/* Hebrew font */
+body:lang(he) {
+  font-family: "David", serif;
+}
+
+/* English font */
+body:lang(en) {
+  font-family: "Lato", sans-serif;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.mary-table-pagination span[aria-current="page"] > span {
+  @apply text-white bg-primary;
+}
+
+/* For dark mode*/
+.mary-table-pagination span[aria-disabled="true"] span {
+  @apply bg-inherit;
+}
+
+/* For dark mode*/
+.mary-table-pagination button {
+  @apply bg-white;
+}
+
+.mary-table-pagination button:hover {
+  @apply text-white bg-primary;
+}
+
+.mary-table-pagination select {
+  @apply h-10 bg-white border-primary;
+}
+
+.mary-table-pagination select:focus,
+.mary-table-pagination select:active {
+  @apply border-primary outline-primary;
+}
+
+.custom-dropdown-bg > ul,
+ul
+  .p-2
+  .shadow
+  .menu
+  .border
+  .border-base-200
+  .bg-base-100
+  .rounded-box
+  .w-auto
+  .min-w-max {
+  background-color: #f9f9f9 !important;
+}
+
+.mymenu ul {
+  @apply m-2 bg-cultured;
+}
+
+.datepicker-cell.block.text-white {
+  @apply bg-primary;
+}
+
+.table-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.table-container table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #ccc; /* This sets a light gray border for the entire table */
+}
+
+.table-container td, .table-container th {
+  border: 1px solid #d1d5db; /* This sets a dark gray border for individual cells */
+}
+.table-container th:first-child td:first-child {
+  border-top-left-radius: 0.5rem;
+}
+
+.table-container th:last-child td:last-child {
+  border-top-right-radius: 0.5rem;
+}
+
+.table-container tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+
+.table-container tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+
+.appointmentModal{
+  min-width: 90vw !important;
+  margin: 0 auto !important;
+}
+.appointmentModal > .modal-box {
+  min-width: 90vw !important;
+  width: 100vw !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  border-radius: 0;
+  @apply bg-cultured;
+  margin: 0 auto !important;
+}
+
+.paymentModal > .modal-box {
+    max-width: 100vw !important;
+    width: 1000px !important;
+    position: relative !important;
+  /* min-height: 100vh !important;
+  height: 100vh !important;
+  border-radius: 0;
+  @apply bg-cultured; */
+}
+
+.status-reserved {
+  background-color: #007bff80; /* Blue */
+}
+
+.status-waiting {
+  background-color: #ffc10780; /* Orange */
+}
+
+.status-completed {
+  background-color: #28a74580; /* Green */
+}
+
+.status-not-attended-telling {
+  background-color: #6c757d80; /* Gray */
+}
+
+.status-not-attended-no-telling {
+  background-color: #dc354580; /* Red */
+}
+
+.flatpickr-day.selected
+{
+    @apply !bg-primary;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* todo fix it on other browser */
+input[type="time"] {
+    position: relative;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 10px;
+}
+
+
+.disc-nput > input{
+    width: 100%;
+}
+.disc-nput{
+    @apply w-1/2;
+    max-width: 203px;
+}
+.disc-nput > div{
+  width: 100%;
+    /* padding-inline-end: 10px; */
+}
