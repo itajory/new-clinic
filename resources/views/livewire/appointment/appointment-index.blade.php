@@ -23,7 +23,7 @@
 
 <div class="grid w-full grid-cols-12 gap-2" style="margin-inline-start: -30px"
     x-data="{
-        showAddEditAppointmentModal: $wire.showAddEditAppointmentModal,
+        showAddEditAppointmentModal: @entangle('showAddEditAppointmentModal'),
         init() {
             document.addEventListener('hide-add-edit-appointment-modal', () => {
                 this.showAddEditAppointmentModal = false;
@@ -136,12 +136,12 @@
     </div>
 
     <x-mary-modal x-show="showAddEditAppointmentModal" subtitle="" box-class="border-2 border-primary rounded-0" class="appointmentModal max-w-[90%]" persistent>
-        <x-mary-header title="{{ $selectedAppointment ? __('edit_appointment') : __('add_appointment') }}" subtitle="" size="text-2xl" class="mb-1" separator progress-indicator>
-            @unless ($selectedAppointment)
+        <x-mary-header title="{{ isset($selectedAppointment) && $selectedAppointment ? __('edit_appointment') : __('add_appointment') }}" subtitle="" size="text-2xl" class="mb-1" separator progress-indicator>
+            @if (!isset($selectedAppointment) || !$selectedAppointment)
                 <x-slot:middle class="!justify-center">
                     <div class="flex flex-col items-center justify-center md:flex-row">
                         <x-mary-dropdown class="btn-outline !py-0.5 h-8 min-w-60 border-primary hover:bg-inherit hover:text-gray-500 hover:border-primary text-gray-500 custom-dropdown-bg me-4">
-                            <x-slot:label>{{ $selectedPatient ? $selectedPatient->full_name : __('select patient') }}</x-slot:label>
+                            <x-slot:label>{{ isset($selectedPatient) && $selectedPatient ? $selectedPatient->full_name : __('select patient') }}</x-slot:label>
                             <x-mary-menu-item wire:click.stop="" class="bg-transparent">
                                 <x-slot:title>
                                     <x-mary-input wire:keydown.enter.prevent="patients" wire:model.live.debounce.300ms="searchPatientWord" class="bg-inherit" type="text"/>
@@ -160,24 +160,24 @@
                         @endcan
                     </div>
                 </x-slot:middle>
-            @endunless
+            @endif
             <x-slot:actions>
                 <x-mary-button icon="o-x-mark" x-on:click="showAddEditAppointmentModal = false; $wire.hideAddEditAppointmentModal()" class="btn-error btn-circle"/>
             </x-slot:actions>
         </x-mary-header>
 
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
-            @if (($selectedAppointment || $selectedPatient) && !$isNewPatient)
+            @if ((isset($selectedAppointment) && $selectedAppointment || isset($selectedPatient) && $selectedPatient) && !$isNewPatient)
                 <div class="col-span-2">
                     <livewire:patient.view-patient :id="$selectedPatient->id" :isNested="true" :key="$selectedPatient->id"/>
                 </div>
-            @elseif (!$selectedPatient && $isNewPatient && !$selectedAppointment)
+            @elseif (!isset($selectedPatient) && $isNewPatient && !(isset($selectedAppointment) && $selectedAppointment))
                 <div class="col-span-2">
                     <livewire:patient.create-patient :id="0" :isNested="true" :key="0"/>
                 </div>
             @endif
 
-            @if ($selectedAppointment && !$isNewPatient)
+            @if (isset($selectedAppointment) && $selectedAppointment && !$isNewPatient)
                 <div class="col-span-1 p-4 bg-white rounded-lg shadow-md">
                     <h3 class="text-lg font-semibold">{{ __('appointment_info') }}</h3>
                     <div class="mt-2">
@@ -190,7 +190,7 @@
                             :key="$selectedPatient->id"/>
                     </div>
                 </div>
-            @elseif ($selectedPatient && !$selectedAppointment && !$isNewPatient)
+            @elseif (isset($selectedPatient) && $selectedPatient && !(isset($selectedAppointment) && $selectedAppointment) && !$isNewPatient)
                 <div class="col-span-1 p-4 bg-white rounded-lg shadow-md">
                     <h3 class="text-lg font-semibold">{{ __('appointment_info') }}</h3>
                     <div class="mt-2">

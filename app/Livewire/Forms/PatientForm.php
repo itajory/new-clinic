@@ -2,11 +2,10 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Form;
-use App\Models\Patient;
 use App\enums\GenderEnum;
-use Livewire\Attributes\Validate;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Date;
+use Livewire\Form;
 
 class PatientForm extends Form
 {
@@ -26,10 +25,10 @@ class PatientForm extends Form
     {
         return [
             'full_name' => 'required|string|max:255',
-            'birth_date' => 'required|date|before:' . Date::now(),
-            'id_number' => 'required|string|max:255',
-            'guardian_phone' => 'required|string|max:255',
-            'patient_phone' => 'nullable|string|max:255',
+            'birth_date' => 'required|date|before:'.Date::now(),
+
+            'id_number' => $this->patient ? 'required|string|max:255' : 'required|unique:patients,id_number|string|max:255',
+            'guardian_phone' => 'required|string|max:255',            'patient_phone' => 'nullable|string|max:255',
             'city_id' => 'required|integer|exists:cities,id',
             'patientFunds.*.contribution_percentage' => 'required|numeric|min:0',
         ];
@@ -53,6 +52,7 @@ class PatientForm extends Form
                 ['contribution_percentage' => $fund['contribution_percentage']]
             );
         }
+
         return $patient;
     }
 
@@ -74,6 +74,7 @@ class PatientForm extends Form
         }
 
         $this->patient->patientFunds()->sync($syncData);
+
         return $this->patient;
     }
 
@@ -101,13 +102,13 @@ class PatientForm extends Form
 
     public function hasData(): bool
     {
-        return !empty($this->full_name) ||
-            !empty($this->gender) ||
-            !empty($this->birth_date) ||
-            !empty($this->id_number) ||
-            !empty($this->guardian_phone) ||
-            !empty($this->patient_phone) ||
-            $this->city_id !== 0 ||
-            !empty($this->patientFunds);
+        return !empty($this->full_name)
+            || !empty($this->gender)
+            || !empty($this->birth_date)
+            || !empty($this->id_number)
+            || !empty($this->guardian_phone)
+            || !empty($this->patient_phone)
+            || $this->city_id !== 0
+            || !empty($this->patientFunds);
     }
 }
