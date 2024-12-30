@@ -64,6 +64,19 @@ class AppointmentIndex extends Component
         $this->initializeData();
     }
 
+    private function isTimeSlotInMedicalCenterWorkingHours($timeSlot, $medicalCenter)
+    {
+        if (!$medicalCenter) {
+            return false;
+        }
+
+        $timeSlotTime = Carbon::parse($timeSlot);
+        $openingTime = Carbon::parse($medicalCenter->opening_time);
+        $closingTime = Carbon::parse($medicalCenter->closing_time);
+
+        return $timeSlotTime->between($openingTime, $closingTime);
+    }
+
     private function initializeData()
     {
         $this->patientClass = Patient::class;

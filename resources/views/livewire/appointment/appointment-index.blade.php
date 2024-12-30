@@ -116,7 +116,7 @@
         <x-mary-datepicker label="" wire:model.live="selectedDate" type="date" icon="o-calendar" :config="$config" class="text-primary"/>
     </div>
 
-    <x-mary-modal x-show="showAddEditAppointmentModal" subtitle="" box-class="border-2 border-primary rounded-0" class="appointmentModal max-w-[90%]" persistent>
+    <x-mary-modal x-show="showAddEditAppointmentModal" subtitle="" box-class="border-1 border-primary rounded-0" class="appointmentModal max-w-[90%]" persistent>
         <x-mary-header title="{{ $selectedAppointment ? __('edit_appointment') : __('add_appointment') }}" subtitle="" size="text-2xl" class="mb-1" separator progress-indicator>
             @unless ($selectedAppointment)
                 <x-slot:middle class="!justify-center">
