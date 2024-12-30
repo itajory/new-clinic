@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'doctor_id',
@@ -32,31 +30,31 @@ class Appointment extends Model
         'patient_fund_total',
         'total',
         'repeat_id',
-        'is_patient_fund_closed',
+        'is_patient_fund_closed'
     ];
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function doctor(): BelongsTo
+    public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
-    public function medicalCenter(): BelongsTo
+    public function medicalCenter()
     {
         return $this->belongsTo(MedicalCenter::class);
     }
 
-    public function treatment(): BelongsTo
+    public function treatment()
     {
         return $this->belongsTo(Treatment::class);
     }
 
-    public function patient(): BelongsTo
+    public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
 
-    public function createdBy(): BelongsTo
+    public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
     }

@@ -1,10 +1,29 @@
 @php
-    use App\Services\AppointmentViewService;
+    function getAppointmentClass($appointment)
+    {
+        if (!$appointment['isWorkingHours']) {
+            return 'bg-gray-300';
+        }
+
+        if ($appointment['appointment']) {
+            $statusClasses = [
+                'reserved' => 'status-reserved',
+                'waiting' => 'status-waiting',
+                'completed' => 'status-completed',
+                'not_attended_with_telling' => 'status-not-attended-telling',
+                'not_attended_without_telling' => 'status-not-attended-no-telling'
+            ];
+
+            return $statusClasses[$appointment['appointment']->status] ?? 'bg-red-500';
+        }
+
+        return (!$appointment['isDoctorWorkingHours'] ?? false) ? 'bg-gray-200' : 'bg-gray-50';
+    }
 @endphp
 
 <div class="grid w-full grid-cols-12 gap-2" style="margin-inline-start: -30px"
     x-data="{
-        showAddEditAppointmentModal: @entangle('showAddEditAppointmentModal'),
+        showAddEditAppointmentModal: $wire.showAddEditAppointmentModal,
         init() {
             document.addEventListener('hide-add-edit-appointment-modal', () => {
                 this.showAddEditAppointmentModal = false;
@@ -61,7 +80,7 @@
                                                     $appointmentId = $appointment['appointment']->id ?? null;
                                                 @endphp
                                                 @if (!isset($renderedAppointments[$columnIndex]) || $renderedAppointments[$columnIndex] !== $appointmentId)
-                                                    <td class="border p-2 min-w-40 max-w-40 {{ AppointmentViewService::getAppointmentClass($appointment) }} relative group"
+                                                    <td class="border p-2 min-w-40 max-w-40 {{ getAppointmentClass($appointment) }} relative group"
                                                         rowspan="{{ $appointment['appointment'] ? ceil($appointment['appointment']->duration / 15) : 1 }}">
                                                         @if ($appointment['isWorkingHours'])
                                                             @can('create', $appointmentClasss)
